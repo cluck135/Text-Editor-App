@@ -17,13 +17,17 @@ module.exports = () => {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
+    devtool: "source-map",
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
         title: 'TODOs List'
       }),
 
-      new InjectManifest(),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'service-worker.js',
+      }),
       new WebpackPwaManifest({
         name: 'TODOs',
         short_name: 'TODOs',
@@ -34,7 +38,7 @@ module.exports = () => {
         publicPath: '/',
         icons: [
           {
-            src: path.resolve('assets/images/logo.png'),
+            src: path.resolve('favicon.ico'),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
